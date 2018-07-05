@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Backend;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Order;
+use App\User;
 
-class OrderController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,19 +16,8 @@ class OrderController extends Controller
     public function index()
     {
         //
-        $orders = Order::orderBy('id')->get();
-        return view('backend.order.index', compact('orders'));
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        $users = User::orderBy('id')->get();
+        return view('backend.user.index', compact('users'));
     }
 
     /**
@@ -40,8 +29,8 @@ class OrderController extends Controller
     public function edit($id)
     {
         //
-        $order = Order::find($id);
-        return view('backend.order.edit', compact('order'));
+        $user = User::find($id);
+        return view('backend.user.edit', compact('user'));
     }
 
     /**
@@ -54,6 +43,11 @@ class OrderController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $user = User::find($id);
+        $user->name = $request->input('name');
+        $user->save();
+
+        return redirect()->route('admin.user.index');
     }
 
     /**

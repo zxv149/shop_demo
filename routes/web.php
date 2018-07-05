@@ -11,26 +11,26 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'Frontend\HomeController@index')->name('home');
+Route::get('product/{id}', 'Frontend\ProductController@show')->name('product.show');
 
-Route::middleware(['auth'])->get('admin', function () {
-    return view('backend.layouts.admin_template');
-})->name("backend");
+Route::get('cart', 'Frontend\CartController@index')->name('cart');
+Route::post('cart/add/{id}', 'Frontend\CartController@addToCart')->name('cart.add');
+Route::put('cart/update', 'Frontend\CartController@updateCart')->name('cart.update');
+Route::delete('cart/delete/{id}', 'Frontend\CartController@deleteCart')->name('cart.delete');
 
 Route::get('admin/login', 'Backend\AdminLoginController@showLoginForm')
     ->name('admin.login');
 
 Route::post('admin/login', 'Backend\AdminLoginController@login')->name('admin.login.post');
 
-Route::prefix('admin')->group(function() {
+Route::middleware('auth:admin')->prefix('admin')->name('admin.')->group(function() {
 
-    Route::get('logout', 'Backend\AdminLoginController@logout')->name('admin.logout');
+    Route::get('logout', 'Backend\AdminLoginController@logout')->name('logout');
 
-    Route::get('/', 'Backend\AdminController@index')->name('admin.backend');
+    Route::get('/', 'Backend\AdminController@index')->name('backend');
 
-    Route::resource('member', 'Backend\MemberController', ['except' => ['show']]);
+    Route::resource('user', 'Backend\UserController', ['except' => ['show']]);
 
     Route::resource('product', 'Backend\ProductController', ['except' => ['show']]);
 
@@ -40,4 +40,3 @@ Route::prefix('admin')->group(function() {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
