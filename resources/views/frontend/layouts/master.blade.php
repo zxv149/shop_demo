@@ -2,6 +2,7 @@
 <html>
 <title>W3.CSS Template</title>
 <meta charset="UTF-8">
+<meta name="_token" content="{{ csrf_token() }}"/>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="{{ asset('/css/w3.css') }}">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
@@ -71,6 +72,10 @@
         document.getElementById("myOverlay").style.display = "none";
     }
 </script>
+
+
+@stack('scripts')
+
 
 </body>
 </html>

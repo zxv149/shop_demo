@@ -11,6 +11,7 @@
                         <th scope="col">商品名稱</th>
                         <th scope="col">價格</th>
                         <th scope="col">數量</th>
+                        <th scope="col">小計</th>
                         <th scope="col"></th>
                     </tr>
                     </thead>
@@ -19,8 +20,15 @@
                         <tr>
                             <td class="align-middle"><img src="{{ asset('uploads/product/'. $product['image']) }}" width="100px"></td>
                             <td class="align-middle">{{ $product['title'] }}</td>
-                            <td class="align-middle">{{ $product['price'] }}</td>
-                            <td class="align-middle">{{ $product['qty'] }}</td>
+                            <td class="align-middle" id="price_{{ $product['id'] }}">{{ $product['price'] }}</td>
+                            <td class="align-middle">
+                                <input type="number" min="1" class="amount form-control"
+                                       id="amount_{{ $product['id'] }}"
+                                       data-id="{{ $product['id'] }}"
+                                       value="{{ $product['qty'] }}"
+                                       onfocus="this.select()">
+                                </td>
+                            <td class="align-middle" id="count_{{ $product['id'] }}">{{ $product['price']*$product['qty'] }}</td>
                             <td class="align-middle">
                                 <form method="POST" action="{{ route('cart.delete', $product['id']) }}">
                                     {{ csrf_field() }}
@@ -36,7 +44,95 @@
                     @endforelse
                     </tbody>
                 </table>
+
+
+
             </div>
+
+            @if (count($cart) >= 1)
+                <div class="">
+                    <form method="POST" action="{{ route('cart.check') }}">
+                        {{ csrf_field() }}
+                        {{ method_field('POST') }}
+                        <div class="form-control">
+                            <label for="payment">付款方式：</label>
+                            <select class="form-control" name="payment" id="payment">
+                                <option value="cash">貨到付款</option>
+                                <option value="card">線上刷卡</option>
+                            </select>
+                        </div>
+                        <br>
+                        <button type="submit" class="btn btn-primary pull-right">結帳</button>
+                    </form>
+                </div>
+
+            @else
+
+            @endif
+
         </section>
     </div>
 @endsection
+
+@push('scripts')
+<script>
+    $(function() {
+        $('.amount').bind('change blur', function (event) {
+            if (event.keyCode != 8) {
+                var id = $(this).attr('data-id');
+                var amount = isNaN($(this).val()) ? '1' : $(this).val();
+                var stock = fn_get_stock(id,amount);
+                if (parseInt(stock) >= parseInt(amount) && parseInt(amount) > 0) {
+                    $(this).val(amount);
+                }
+                else {
+                    if (parseInt(amount) < 1 && parseInt(stock) > 0) {
+                        $(this).val('1');
+                    } else {
+                        $(this).val(stock);
+                    }
+                }
+
+                var qty =  $(this).val();
+
+                $('#count_' + id).text(parseInt(qty)*parseInt($('#price_' + id).text()));
+            }
+        });
+
+
+        function fn_get_stock(id,amount) {
+            var _quantity = isNaN(amount) ? '1' : amount;
+            var _data = {
+                "id":id,
+                "qty":_quantity
+            };
+            if ('' != id && !isNaN(id) && parseInt(id) > 0) {
+                $.ajax({
+                    url: '{{ route('cart.update') }}',
+                    type: 'post',
+                    data:_data,
+                    dataType: 'json',
+                    async: false,
+                    headers: {
+
+                        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+
+                    },
+
+                    success: function (msg) {
+                        console.log(msg);
+                        amount = parseInt(msg);
+                    },
+
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert(xhr.status);
+                        alert(thrownError);
+                    }
+                });
+            }
+            return amount;
+        }
+    });
+</script>
+
+@endpush

@@ -16,8 +16,11 @@ Route::get('product/{id}', 'Frontend\ProductController@show')->name('product.sho
 
 Route::get('cart', 'Frontend\CartController@index')->name('cart');
 Route::post('cart/add/{id}', 'Frontend\CartController@addToCart')->name('cart.add');
-Route::put('cart/update', 'Frontend\CartController@updateCart')->name('cart.update');
+Route::post('cart/update', 'Frontend\CartController@updateCart')->name('cart.update');
 Route::delete('cart/delete/{id}', 'Frontend\CartController@deleteCart')->name('cart.delete');
+
+Route::post('check', 'Frontend\CartController@check')->name('cart.check');
+Route::post('checkout', 'Frontend\CartController@checkout')->name('cart.checkout');
 
 Route::get('admin/login', 'Backend\AdminLoginController@showLoginForm')
     ->name('admin.login');
