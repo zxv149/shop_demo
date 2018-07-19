@@ -11,12 +11,12 @@ class OrdersDetail extends Model
 
     public function order()
     {
-        return $this->belongsTo('App\Model\Order');
+        return $this->belongsTo('App\Models\Order');
     }
 
     public function product()
     {
-        return $this->belongsTo('App\Model\Product');
+        return $this->belongsTo('App\Models\Product', 'p_id');
     }
 
 }

@@ -8,9 +8,9 @@
                 <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">商品名稱</th>
-                        <th scope="col">商品副標題</th>
-                        <th scope="col">圖片</th>
+                        <th scope="col">訂單編號</th>
+                        <th scope="col">訂購人</th>
+                        <th scope="col">訂購時間</th>
                         <th scope="col">操作</th>
                     </tr>
                 </thead>
@@ -18,9 +18,9 @@
                     @forelse ($orders as $order) 
                         <tr>
                             <th class="align-middle" scope="row">{{ $order->id }}</th>
-                            <td class="align-middle">{{ $order->title }}</td>
-                            <td class="align-middle">{{ $order->subtitle }}</td>
-                            <td class="align-middle"><img src="{{ asset('uploads/order/'. $order->image) }}" width="100px"></td>
+                            <td class="align-middle">{{ $order->serno }}</td>
+                            <td class="align-middle">{{ $order->o_name}}</td>
+                            <td class="align-middle">{{ $order->created_at}}</td>
                             <td class="align-middle">
                                 <a href="{{ route('admin.order.edit', $order->id) }}" class="btn btn-primary">修改</a>
                                 <form method="POST" action="{{ route('admin.order.destroy', $order->id) }}">

@@ -54,6 +54,11 @@ class OrderController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $order = Order::find($id);
+        $order->status = $request->input('status');
+        $order->save();
+
+        return redirect()->route('admin.order.index');
     }
 
     /**
@@ -65,5 +70,8 @@ class OrderController extends Controller
     public function destroy($id)
     {
         //
+        $order = Order::find($id);
+        $order->delete();
+        return redirect()->route('admin.order.index');
     }
 }

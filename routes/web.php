@@ -19,8 +19,11 @@ Route::post('cart/add/{id}', 'Frontend\CartController@addToCart')->name('cart.ad
 Route::post('cart/update', 'Frontend\CartController@updateCart')->name('cart.update');
 Route::delete('cart/delete/{id}', 'Frontend\CartController@deleteCart')->name('cart.delete');
 
-Route::post('check', 'Frontend\CartController@check')->name('cart.check');
-Route::post('checkout', 'Frontend\CartController@checkout')->name('cart.checkout');
+Route::middleware('auth:web')->group(function() {
+    Route::post('check', 'Frontend\CartController@check')->name('cart.check');
+    Route::post('checkout', 'Frontend\CartController@checkout')->name('cart.checkout');
+});
+
 
 Route::get('admin/login', 'Backend\AdminLoginController@showLoginForm')
     ->name('admin.login');

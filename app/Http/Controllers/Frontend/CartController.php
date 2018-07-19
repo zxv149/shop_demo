@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Order;
 use App\Models\OrdersDetail;
+use Illuminate\Support\Facades\Auth;
 use Session;
 
 class CartController extends Controller
@@ -70,7 +71,7 @@ class CartController extends Controller
     {
         $cart = Session::get('cart');
         $payment = Session::get('payment');
-        $payment = $request['payment'];
+        Session::put('payment', $request->input('payment'));
         $total = 0;
         foreach ($cart as $product) {
             $total+=$product['price']*$product['qty'];
@@ -91,7 +92,8 @@ class CartController extends Controller
         if ($total > 0 && is_integer($total)) {
 
             $order = new Order();
-            $order->m_id = 1;
+            $order->m_id = Auth::id();
+            $order->serno = date("YmdHis").rand(0, 9).rand(0, 9).rand(0, 9).rand(0, 9);
             $order->o_total = $total;
             $order->o_qty = $total_qty;
             $order->o_name = $request['order_name'];
@@ -103,7 +105,7 @@ class CartController extends Controller
                 foreach ($cart as $product) {
                     $orderDetail = new OrdersDetail();
                     $orderDetail->o_id = $order->id;
-                    $orderDetail->p_id =$product['id'];
+                    $orderDetail->p_id = $product['id'];
                     $orderDetail->od_price = $product['price'];
                     $orderDetail->od_qty = $product['qty'];
                     $orderDetail->od_total = $product['price']*$product['qty'];
@@ -111,6 +113,8 @@ class CartController extends Controller
                 }
             }
 
+            $request->session()->forget('cart');
+            $request->session()->forget('payment');
             return view('frontend.checkout');
         }
         else {

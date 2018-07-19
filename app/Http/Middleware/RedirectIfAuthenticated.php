@@ -22,7 +22,7 @@ class RedirectIfAuthenticated
                 $backUrl = '/admin' ;
                 break;
             default:
-                $backUrl = '/home' ;
+                $backUrl = '/' ;
                 break;
 
         }
