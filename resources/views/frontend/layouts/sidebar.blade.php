@@ -3,6 +3,12 @@
         <i onclick="w3_close()" class="fa fa-remove w3-hide-large w3-button w3-display-topright"></i>
         <a href="{{ route('home') }}"><h3 class="w3-wide"><b>LOGO</b></h3></a>
     </div>
+
+    <i class="fa fa-search"></i>
+    <form id="logout-form" action="{{ route('product.search') }}" method="GET">
+        <input class="form-control" type="text" name="word" value="{{ Request::get('word') }}">
+    </form>
+
     <div class="w3-padding-64 w3-large w3-text-grey" style="font-weight:bold">
         @foreach($menus as $category)
             <a href="{{ route('category.show', $category->id) }}" class="w3-bar-item w3-button">{{ $category->title }}</a>

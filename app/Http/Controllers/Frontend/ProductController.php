@@ -13,4 +13,11 @@ class ProductController extends Controller
         $product = Product::find($id);
         return view('frontend.product', compact('product'));
     }
+
+    public function search(Request $request)
+    {
+        $word = $request->get('word');
+        $products = Product::where('title', 'LIKE', '%' . $word . '%')->get();
+        return view('frontend.search', compact('products'));
+    }
 }

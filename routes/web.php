@@ -14,6 +14,7 @@
 Route::get('/', 'Frontend\HomeController@index')->name('home');
 Route::get('product/{id}', 'Frontend\ProductController@show')->name('product.show');
 Route::get('category/{id}', 'Frontend\CategoryController@show')->name('category.show');
+Route::get('search', 'Frontend\ProductController@search')->name('product.search');
 
 Route::get('cart', 'Frontend\CartController@index')->name('cart');
 Route::post('cart/add/{id}', 'Frontend\CartController@addToCart')->name('cart.add');

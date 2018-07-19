@@ -29,7 +29,6 @@
 
     <!-- Top header -->
     <header class="w3-container w3-xlarge">
-        <i class="fa fa-search"></i>
 
         <p class="w3-right">
             <a href="{{ route('cart') }}"><i class="fa fa-shopping-cart w3-margin-right"></i></a>
