@@ -70,8 +70,8 @@ class CartController extends Controller
     public function payment(Request $request)
     {
         $payment = Session::get('payment');
-        Session::put('payment', $request->input('payment'));
-        return response()->json($payment);
+        Session::put('payment', $request->post('payment'));
+        return response()->json($request->post('payment'));
     }
 
     public function check()

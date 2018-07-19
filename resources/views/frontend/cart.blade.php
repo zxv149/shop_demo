@@ -57,7 +57,7 @@
                         </select>
                     </div>
                     <br>
-                    <button type="submit" class="btn btn-primary pull-right">結帳</button>
+                    <a href="{{ route('cart.check') }}" class="btn btn-primary pull-right">結帳</a>
                 </div>
 
             @else
@@ -94,12 +94,13 @@
         });
 
         $('#payment').bind('change', function (event) {
-            var payment = isNaN($(this).val()) ? '' : $(this).val();
+            var payment = $(this).val();
+            console.log(payment + '1');
             $.ajax({
                 url: '{{ route('cart.payment') }}',
-                type: 'post',
-                data: payment,
-                dataType: 'json',
+                type: 'POST',
+                data: {payment:payment},
+                dataType: 'text',
                 async: false,
                 headers: {
 
