@@ -10,7 +10,7 @@ class CategoryController extends Controller
 {
     public function show($id)
     {
-        $products = Product::where('category_id',$id)->get();
+        $products = Product::where('category_id',$id)->paginate(20);
         return view('frontend.category', compact('products'));
     }
 }

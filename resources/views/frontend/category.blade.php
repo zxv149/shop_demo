@@ -22,4 +22,6 @@
     @endforelse
 
 </div>
+
+{{ $products->links() }}
 @endsection

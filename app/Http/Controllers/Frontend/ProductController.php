@@ -17,7 +17,7 @@ class ProductController extends Controller
     public function search(Request $request)
     {
         $word = $request->get('word');
-        $products = Product::where('title', 'LIKE', '%' . $word . '%')->get();
+        $products = Product::where('title', 'LIKE', '%' . $word . '%')->paginate(20);
         return view('frontend.search', compact('products'));
     }
 }
