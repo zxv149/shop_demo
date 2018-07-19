@@ -16,36 +16,54 @@
 
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label" for="title">商品名稱</label>
-                <div class="col-sm-10">
+                <div class="col-sm-8">
                     <input class="form-control" type="text" name="title" value="{{$product->title}}">
                 </div>
             </div>
 
             <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="title">類別</label>
+                <div class="col-sm-8">
+                    <select class="form-control" name="category">
+                        @forelse ($categorys as $category)
+                            <option {{ $category->id == $product->category_id ? 'selected="selected"' : '' }} value="{{ $category->id }}">{{ $category->title }}</option>
+                        @empty
+
+                        @endforelse
+                        <option {{ 0 == $product->category_id ? 'selected="selected"' : '' }} value="0">其他</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row">
                 <label class="col-sm-2 col-form-label" for="title">價格</label>
-                <div class="col-sm-10">
+                <div class="col-sm-8">
                     <input class="form-control" type="number" name="price" value="{{$product->price}}">
                 </div>
             </div>
 
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label" for="title">數量</label>
-                <div class="col-sm-10">
+                <div class="col-sm-8">
                     <input class="form-control" type="number" name="qty" value="{{$product->qty}}">
                 </div>
             </div>
 
-            <div class="form-group">
-                <label for="description">商品描述</label>
-                <textarea class="form-control" type="text" name="description" rows="5">{{$product->description}}</textarea>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="description">商品描述</label>
+                <div class="col-sm-8">
+                    <textarea class="form-control" type="text" name="description" rows="5">{{$product->description}}</textarea>
+                </div>
             </div>
 
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label" for="image">圖片</label>
-                <div class="col-sm-10">
+                <div class="col-sm-8">
                     <input class="form-control" type="file" name="image">
                 </div>
-                <img src="{{ asset('uploads/product/' . $product->image) }}" class="mt-3" style="height: 100%; width: 100%; object-fit: contain" onerror="this.src='{{ asset('uploads/product/default.jpg') }}'">
+                <div>
+                    <img src="{{ asset('uploads/product/' . $product->image) }}" class="mt-3" style="display:block; margin: auto; height: 100%; width: 200px; object-fit: contain" onerror="this.src='{{ asset('uploads/product/default.jpg') }}'">
+                </div>
             </div>
 
             <div class="form-group row justify-content-end">

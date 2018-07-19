@@ -3,7 +3,7 @@
 @section('content')
 <div class="row my-4">
     <div class="col-lg-8">
-        <img class="img-fluid rounded img-responsive" src="{{ asset('uploads/product/'. $product->image) }}" alt="">
+        <img style="display: block; margin: auto;" class="img-fluid rounded img-responsive" src="{{ asset('uploads/product/'. $product->image) }}" alt="">
     </div>
     <!-- /.col-lg-8 -->
     <div class="col-lg-4">

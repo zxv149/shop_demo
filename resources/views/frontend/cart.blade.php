@@ -45,25 +45,19 @@
                     </tbody>
                 </table>
 
-
-
             </div>
 
             @if (count($cart) >= 1)
                 <div class="">
-                    <form method="POST" action="{{ route('cart.check') }}">
-                        {{ csrf_field() }}
-                        {{ method_field('POST') }}
-                        <div class="form-control">
-                            <label for="payment">付款方式：</label>
-                            <select class="form-control" name="payment" id="payment">
-                                <option value="cash">貨到付款</option>
-                                <option value="card">線上刷卡</option>
-                            </select>
-                        </div>
-                        <br>
-                        <button type="submit" class="btn btn-primary pull-right">結帳</button>
-                    </form>
+                    <div class="form-control">
+                        <label for="payment">付款方式：</label>
+                        <select class="form-control" name="payment" id="payment">
+                            <option value="cash">貨到付款</option>
+                            <option value="card">線上刷卡</option>
+                        </select>
+                    </div>
+                    <br>
+                    <button type="submit" class="btn btn-primary pull-right">結帳</button>
                 </div>
 
             @else
@@ -99,6 +93,30 @@
             }
         });
 
+        $('#payment').bind('change', function (event) {
+            var payment = isNaN($(this).val()) ? '' : $(this).val();
+            $.ajax({
+                url: '{{ route('cart.payment') }}',
+                type: 'post',
+                data: payment,
+                dataType: 'json',
+                async: false,
+                headers: {
+
+                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+
+                },
+
+                success: function (msg) {
+                    console.log(msg);
+                },
+
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status);
+                    alert(thrownError);
+                }
+            });
+        });
 
         function fn_get_stock(id,amount) {
             var _quantity = isNaN(amount) ? '1' : amount;

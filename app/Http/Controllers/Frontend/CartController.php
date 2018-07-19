@@ -67,11 +67,17 @@ class CartController extends Controller
         return redirect()->back();
     }
 
-    public function check(Request $request)
+    public function payment(Request $request)
+    {
+        $payment = Session::get('payment');
+        Session::put('payment', $request->input('payment'));
+        return response()->json($payment);
+    }
+
+    public function check()
     {
         $cart = Session::get('cart');
         $payment = Session::get('payment');
-        Session::put('payment', $request->input('payment'));
         $total = 0;
         foreach ($cart as $product) {
             $total+=$product['price']*$product['qty'];

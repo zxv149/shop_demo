@@ -4,21 +4,10 @@
         <a href="{{ route('home') }}"><h3 class="w3-wide"><b>LOGO</b></h3></a>
     </div>
     <div class="w3-padding-64 w3-large w3-text-grey" style="font-weight:bold">
-        <a href="#" class="w3-bar-item w3-button">Shirts</a>
-        <a href="#" class="w3-bar-item w3-button">Dresses</a>
-        <a onclick="myAccFunc()" href="javascript:void(0)" class="w3-button w3-block w3-white w3-left-align" id="myBtn">
-            Jeans <i class="fa fa-caret-down"></i>
-        </a>
-        <div id="demoAcc" class="w3-bar-block w3-hide w3-padding-large w3-medium">
-            <a href="#" class="w3-bar-item w3-button w3-light-grey"><i class="fa fa-caret-right w3-margin-right"></i>Skinny</a>
-            <a href="#" class="w3-bar-item w3-button">Relaxed</a>
-            <a href="#" class="w3-bar-item w3-button">Bootcut</a>
-            <a href="#" class="w3-bar-item w3-button">Straight</a>
-        </div>
-        <a href="#" class="w3-bar-item w3-button">Jackets</a>
-        <a href="#" class="w3-bar-item w3-button">Gymwear</a>
-        <a href="#" class="w3-bar-item w3-button">Blazers</a>
-        <a href="#" class="w3-bar-item w3-button">Shoes</a>
+        @foreach($menus as $category)
+            <a href="{{ route('category.show', $category->id) }}" class="w3-bar-item w3-button">{{ $category->title }}</a>
+        @endforeach
+            <a href="{{ route('category.show', 0) }}" class="w3-bar-item w3-button">Others</a>
     </div>
     <a href="#footer" class="w3-bar-item w3-button w3-padding">Contact</a>
     <a href="javascript:void(0)" class="w3-bar-item w3-button w3-padding" onclick="document.getElementById('newsletter').style.display='block'">Newsletter</a>

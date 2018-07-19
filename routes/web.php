@@ -13,14 +13,16 @@
 
 Route::get('/', 'Frontend\HomeController@index')->name('home');
 Route::get('product/{id}', 'Frontend\ProductController@show')->name('product.show');
+Route::get('category/{id}', 'Frontend\CategoryController@show')->name('category.show');
 
 Route::get('cart', 'Frontend\CartController@index')->name('cart');
 Route::post('cart/add/{id}', 'Frontend\CartController@addToCart')->name('cart.add');
 Route::post('cart/update', 'Frontend\CartController@updateCart')->name('cart.update');
+Route::post('cart/payment', 'Frontend\CartController@payment')->name('cart.payment');
 Route::delete('cart/delete/{id}', 'Frontend\CartController@deleteCart')->name('cart.delete');
 
 Route::middleware('auth:web')->group(function() {
-    Route::post('check', 'Frontend\CartController@check')->name('cart.check');
+    Route::get('check', 'Frontend\CartController@check')->name('cart.check');
     Route::post('checkout', 'Frontend\CartController@checkout')->name('cart.checkout');
 });
 
@@ -39,6 +41,8 @@ Route::middleware('auth:admin')->prefix('admin')->name('admin.')->group(function
     Route::resource('user', 'Backend\UserController', ['except' => ['show']]);
 
     Route::resource('product', 'Backend\ProductController', ['except' => ['show']]);
+
+    Route::resource('category', 'Backend\CategoryController', ['except' => ['show']]);
 
     Route::resource('order', 'Backend\OrderController', ['except' => ['show']]);
 

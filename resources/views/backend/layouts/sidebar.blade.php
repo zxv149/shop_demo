@@ -9,6 +9,7 @@
             <li class="header">HEADER</li>
             <!-- Optionally, you can add icons to the links -->
             <li class="active"><a href="{{ route('admin.user.index') }}"><i class="fa fa-link"></i> <span>Users</span></a></li>
+            <li><a href="{{ route('admin.category.index') }}"><i class="fa fa-link"></i> <span>Category</span></a></li>
             <li><a href="{{ route('admin.product.index') }}"><i class="fa fa-link"></i> <span>Products</span></a></li>
             <li><a href="{{ route('admin.order.index') }}"><i class="fa fa-link"></i> <span>Orders</span></a></li>
             <li class="treeview">

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Models\Category;
 
 class ProductController extends Controller
 {
@@ -26,7 +27,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('backend.product.create');
+        $categorys = Category::orderBy('id')->get();
+        return view('backend.product.create', compact('categorys'));
     }
 
     /**
@@ -55,6 +57,7 @@ class ProductController extends Controller
         }
 
         $product->title = $request->input('title');
+        $product->category_id = $request->input('category');
         $product->price = $request->input('price');
         $product->qty = $request->input('qty');
         $product->image = $fileName;
@@ -74,7 +77,8 @@ class ProductController extends Controller
     public function edit($id)
     {
         $product = Product::find($id);
-        return view('backend.product.edit', compact('product'));
+        $categorys = Category::orderBy('id')->get();
+        return view('backend.product.edit', compact('product', 'categorys'));
     }
 
     /**
@@ -106,6 +110,7 @@ class ProductController extends Controller
         }
 
         $product->title = $request->input('title');
+        $product->category_id = $request->input('category');
         $product->price = $request->input('price');
         $product->qty = $request->input('qty');
         $product->description = $request->input('description');
