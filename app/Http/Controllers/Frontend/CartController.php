@@ -88,7 +88,7 @@ class CartController extends Controller
     public function checkout(Request $request)
     {
         $cart = Session::get('cart');
-        $payment = Session::get('payment');
+        $payment = Session::get('payment', 'cash');
         $total = 0;
         $total_qty = 0;
         foreach ($cart as $product) {

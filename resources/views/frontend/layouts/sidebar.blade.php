@@ -5,7 +5,7 @@
     </div>
 
     <i class="fa fa-search"></i>
-    <form id="logout-form" action="{{ route('product.search') }}" method="GET">
+    <form id="search-form" action="{{ route('product.search') }}" method="GET">
         <input class="form-control" type="text" name="word" value="{{ Request::get('word') }}">
     </form>
 
