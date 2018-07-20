@@ -9,6 +9,7 @@ use App\Models\Order;
 use App\Models\OrdersDetail;
 use Illuminate\Support\Facades\Auth;
 use Session;
+use Ecpay;
 
 class CartController extends Controller
 {
@@ -117,6 +118,40 @@ class CartController extends Controller
                     $orderDetail->od_total = $product['price']*$product['qty'];
                     $orderDetail->save();
                 }
+
+                if ($payment == 'card') {
+
+                    try {
+                        //Official Example :
+                        //https://github.com/ECPay/ECPayAIO_PHP/blob/master/AioSDK/example/sample_Credit_CreateOrder.php
+
+                        //基本參數(請依系統規劃自行調整)
+                        Ecpay::i()->Send['ReturnURL']         = "http://www.allpay.com.tw/receive.php";
+                        Ecpay::i()->Send['ClientBackURL']         = route('home');
+                        Ecpay::i()->Send['MerchantTradeNo']   = $order->serno ;           //訂單編號
+                        Ecpay::i()->Send['MerchantTradeDate'] = date('Y/m/d H:i:s');      //交易時間
+                        Ecpay::i()->Send['TotalAmount']       = $order->o_total;                     //交易金額
+                        Ecpay::i()->Send['TradeDesc']         = "Test Order" ;         //交易描述
+                        Ecpay::i()->Send['ChoosePayment']     = \ECPay_PaymentMethod::ALL ;     //付款方式
+
+                        //訂單的商品資料
+                        foreach ($cart as $product) {
+                            array_push(Ecpay::i()->Send['Items'], array('Name' => $product['title'], 'Price' => (int)$product['price'],
+                                'Currency' => "元", 'Quantity' => (int)$product['qty'], 'URL' => "dedwed"));
+                        }
+
+
+                        //Go to ECPay
+                        echo "緑界頁面導向中...";
+                        echo Ecpay::i()->CheckOutString();
+
+                    } catch (Exception $e) {
+                        // todo Exception
+
+                    }
+
+                }
+
             }
 
             $request->session()->forget('cart');
@@ -124,7 +159,7 @@ class CartController extends Controller
             return view('frontend.checkout');
         }
         else {
-            return redirect()->route('frontend.home');
+            return redirect()->route('home');
         }
     }
 
